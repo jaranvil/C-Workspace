@@ -5,6 +5,7 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <regex>
+#include <sstream>
 using namespace std;
 
 // protoptypes 
@@ -13,7 +14,7 @@ string getMoveChoice();
 bool turnChoice();
 void playerMove();
 void computerTurn();
-bool checkWin();
+int checkWin(int grid[][3]);
 
 
 
@@ -56,8 +57,9 @@ class Board
 {
 private:
 	const int GRID_SIZE = 3;
-	int grid[][3];
+
 public:
+	int grid[][3];
 	Board()
 	{
 		// setup grid
@@ -69,13 +71,6 @@ public:
 	}
 
 	// property procedures 
-	int getVal(int row, int col)
-	{
-		int num = grid[2][2];
-		cout << "getVal " << num;
-		return grid[row][col];
-	}
-
 	void setVal(int row, int col, int val)
 	{
 		grid[row][col] = val;
@@ -128,37 +123,52 @@ public:
 		//constructor 
 	}
 
-	string getMove(Board p)
+	string getMove(int grid[][3])
 	{
-		// copy the current state of the board into AI's array
-		/*for (int row = 0; row < 3; row++) {
-		for (int col = 0; col < 3; col++) {
-		ai_board[row][col] = p.getVal(row, col);
-		}
-		}*/
+		string move;
 
-		return checkPossiblePlayerWin(p);
+		// can the AI win this turn?
+		move = checkPossibleWin(grid, 1);
+		if (!(move == ""))
+			return move;
+
+		// can the human win this thurn?
+		move = checkPossibleWin(grid, 2);
+		if (!(move == ""))
+			return move;
+
+		// make other move
+		move = chooseOtherMove(grid);
+
+		return move;
 	}
 
-	string checkPossiblePlayerWin(Board p)
+	string checkPossibleWin(int grid[][3], int player)
 	{
+		bool returned = false;
 		// check horizontals 
 		for (int row = 0; row < 3; row++) {
 			int X = 0;
 			int O = 0;
 			int emplyCol = 0;
 			for (int col = 0; col < 3; col++) {
-				if (p.getVal(row, col) == 1)
+				if (grid[row][col] == 1)
 					X++;
-				if (p.getVal(row, col) == 2)
+				if (grid[row][col] == 2)
 					O++;
-				if (p.getVal(row, col) == 0)
+				if (grid[row][col] == 0)
 					emplyCol = col;
 			}
-			cout << p.getVal(2, 2);
 			// if possible player win found, block it
-			if (O == 2 && X == 0)
-				return row + "," + emplyCol;
+			if ((O == 2 && X == 0 && player == 2) || (O == 0 && X == 2 && player == 1)) {
+				stringstream move;
+				move << row << "," << emplyCol;
+				if (grid[row][emplyCol] == 0) {
+					return move.str();
+					returned = true;
+				}
+			}
+
 			X = 0;
 			O = 0;
 		}
@@ -167,18 +177,25 @@ public:
 		for (int col = 0; col < 3; col++) {
 			int X = 0;
 			int O = 0;
-			int emplyRow = 0;
+			int emptyRow = 0;
 			for (int row = 0; row < 3; row++) {
-				if (ai_board[row][col] == 1)
+				if (grid[row][col] == 1)
 					X++;
-				if (ai_board[row][col] == 2)
+				if (grid[row][col] == 2)
 					O++;
-				if (ai_board[row][col] == 0)
-					emplyRow = row;
+				if (grid[row][col] == 0)
+					emptyRow = row;
 			}
 			// if possible player win found, block it
-			if (O == 2 && X == 0)
-				return emplyRow + "," + col;
+			if ((O == 2 && X == 0 && player == 2) || (O == 0 && X == 2 && player == 1)) {
+				stringstream move;
+				move << emptyRow << "," << col;
+
+				if (grid[emptyRow][col] == 0) {
+					return move.str();
+					returned = true;
+				}
+			}
 			X = 0;
 			O = 0;
 		}
@@ -186,36 +203,83 @@ public:
 		// check diagonal 1
 		int X = 0;
 		int O = 0;
-		int emplyRow = 0;
+		int emptyRow = 0;
+		int emptyCol = 0;
 		int col = 0;
 		for (int row = 0; row < 3; row++) {
-			if (ai_board[row][col] == 1)
+			if (grid[row][col] == 1)
 				X++;
-			if (ai_board[row][col] == 2)
+			if (grid[row][col] == 2)
 				O++;
-			if (ai_board[row][col] == 0)
-				emplyRow = row;
+			if (grid[row][col] == 0) {
+				emptyRow = row;
+				emptyCol = col;
+			}
+
 			col++;
 		}
-		if (O == 2 && X == 0)
-			return emplyRow + "," + col;
+		if ((O == 2 && X == 0 && player == 2) || (O == 0 && X == 2 && player == 1)) {
+			stringstream move;
+			move << emptyRow << "," << emptyCol;
+
+			if (grid[emptyRow][emptyCol] == 0) {
+				return move.str();
+				returned = true;
+			}
+		}
 
 		// check diagonal 2
 		X = 0;
 		O = 0;
-		emplyRow = 0;
+		emptyRow = 0;
+		emptyCol = 0;
 		col = 0;
 		for (int row = 2; row > -1; row--) {
-			if (ai_board[row][col] == 1)
+			if (grid[row][col] == 1)
 				X++;
-			if (ai_board[row][col] == 2)
+			if (grid[row][col] == 2)
 				O++;
-			if (ai_board[row][col] == 0)
-				emplyRow = row;
+			if (grid[row][col] == 0) {
+				emptyRow = row;
+				emptyCol = col;
+			}
+
 			col++;
 		}
-		if (O == 2 && X == 0)
-			return emplyRow + "," + col;
+		if ((O == 2 && X == 0 && player == 2) || (O == 0 && X == 2 && player == 1)) {
+			stringstream move;
+			move << emptyRow << "," << emptyCol;
+
+			if (grid[emptyRow][emptyCol] == 0) {
+				return move.str();
+				returned = true;
+			}
+		}
+
+		if (!returned)
+			return "";
+	}
+
+	string chooseOtherMove(int grid[][3])
+	{
+		if (grid[0][0] == 0)
+			return "0,0";
+		if (grid[2][2] == 0)
+			return "2,2";
+		if (grid[0][2] == 0)
+			return "0,2";
+		if (grid[2][0] == 0)
+			return "2,0";
+
+		for (int row = 0; row < 3; row++) {
+			for (int col = 0; col < 3; col++) {
+				if (grid[row][col] == 0) {
+					stringstream choice;
+					choice << row << "," << col;
+					return choice.str();
+				}
+			}
+		}
 
 		return "";
 	}
@@ -224,6 +288,7 @@ public:
 
 Board board;
 AI tom;
+int win = 0;
 
 int main()
 {
@@ -246,11 +311,24 @@ int main()
 		else
 			playerMove();
 
-		//system("CLS");
+		system("CLS");
 		board.draw();
 
-		if (checkWin())
+		win = checkWin(board.grid);
+		if (win > 0)
 			break;
+	}
+
+	system("CLS");
+
+	if (win == 3) {
+		cout << endl << "Tie";
+	}
+	else if (win == 1) {
+		cout << endl << "Computer Wins";
+	}
+	else if (win == 2) {
+		cout << endl << "You Win!";
 	}
 
 	_getch();
@@ -335,26 +413,133 @@ string getMoveChoice()
 void computerTurn()
 {
 	int x, y;
-	string choice = tom.getMove(board);
+	string choice = tom.getMove(board.grid);
 
 	if (!(choice == ""))
 	{
 		string Sx = choice.substr(0, choice.find(","));
 		string Sy = choice.substr(choice.find(",") + 1, choice.length());
 
-		if ((Sx == "1" || Sx == "2" || Sx == "3") && (Sy == "1" || Sy == "2" || Sy == "3"))
+		if ((Sx == "0" || Sx == "1" || Sx == "2") && (Sy == "0" || Sy == "1" || Sy == "2"))
 		{
 			sscanf_s(Sx.c_str(), "%d", &x);
 			sscanf_s(Sy.c_str(), "%d", &y);
 
-			board.setVal(y - 1, x - 1, 1);
+			board.setVal(x, y, 1);
 		}
 	}
 
 
 }
 
-bool checkWin()
+int checkWin(int grid[][3])
 {
-	return false;
+	bool returned = false;
+	// check horizontals 
+	for (int row = 0; row < 3; row++) {
+		int X = 0;
+		int O = 0;
+		int emplyCol = 0;
+		for (int col = 0; col < 3; col++) {
+			if (grid[row][col] == 1)
+				X++;
+			if (grid[row][col] == 2)
+				O++;
+			if (grid[row][col] == 0)
+				emplyCol = col;
+		}
+
+		if (O == 3 && X == 0) {
+			return 2;
+		}
+		if (O == 0 && X == 3) {
+			return 1;
+		}
+
+		X = 0;
+		O = 0;
+	}
+
+	// check veritcals
+	for (int col = 0; col < 3; col++) {
+		int X = 0;
+		int O = 0;
+		int emptyRow = 0;
+		for (int row = 0; row < 3; row++) {
+			if (grid[row][col] == 1)
+				X++;
+			if (grid[row][col] == 2)
+				O++;
+			if (grid[row][col] == 0)
+				emptyRow = row;
+		}
+		if (O == 3 && X == 0) {
+			return 2;
+		}
+		if (O == 0 && X == 3) {
+			return 1;
+		}
+		X = 0;
+		O = 0;
+	}
+
+	// check diagonal 1
+	int X = 0;
+	int O = 0;
+	int emptyRow = 0;
+	int emptyCol = 0;
+	int col = 0;
+	for (int row = 0; row < 3; row++) {
+		if (grid[row][col] == 1)
+			X++;
+		if (grid[row][col] == 2)
+			O++;
+		if (grid[row][col] == 0) {
+			emptyRow = row;
+			emptyCol = col;
+		}
+
+		col++;
+	}
+	if (O == 3 && X == 0) {
+		return 2;
+	}
+	if (O == 0 && X == 3) {
+		return 1;
+	}
+
+
+	// check diagonal 2
+	X = 0;
+	O = 0;
+	emptyRow = 0;
+	emptyCol = 0;
+	col = 0;
+	for (int row = 2; row > -1; row--) {
+		if (grid[row][col] == 1)
+			X++;
+		if (grid[row][col] == 2)
+			O++;
+		if (grid[row][col] == 0) {
+			emptyRow = row;
+			emptyCol = col;
+		}
+
+		col++;
+	}
+	if (O == 3 && X == 0) {
+		return 2;
+	}
+	if (O == 0 && X == 3) {
+		return 1;
+	}
+
+	for (int row = 0; row < 3; row++) {
+		for (int col = 0; col < 3; col++) {
+			if (grid[row][col] == 0)
+				return 0;
+		}
+	}
+
+	return 3;
 }
