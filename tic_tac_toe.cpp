@@ -15,6 +15,8 @@ void playerMove();
 void computerTurn();
 bool checkWin();
 
+
+
 class Validator
 {
 public:
@@ -69,6 +71,8 @@ public:
 	// property procedures 
 	int getVal(int row, int col)
 	{
+		int num = grid[2][2];
+		cout << "getVal " << num;
 		return grid[row][col];
 	}
 
@@ -104,30 +108,122 @@ public:
 				if (col == 2)
 				{
 					cout << "|" << endl;
-				} 
+				}
 			}
 		}
-		
-		cout <<  "     1   2   3   (x)" << endl << endl;
+
+		cout << "     1   2   3   (x)" << endl << endl;
 	}
 };
 
 class AI
 {
 private:
-	
 	int moveCount = 0;
+	const int GRID_SIZE = 3;
+	int ai_board[][3];
 public:
 	AI()
 	{
-		// constructor
+		//constructor 
 	}
 
+	string getMove(Board p)
+	{
+		// copy the current state of the board into AI's array
+		/*for (int row = 0; row < 3; row++) {
+		for (int col = 0; col < 3; col++) {
+		ai_board[row][col] = p.getVal(row, col);
+		}
+		}*/
 
+		return checkPossiblePlayerWin(p);
+	}
+
+	string checkPossiblePlayerWin(Board p)
+	{
+		// check horizontals 
+		for (int row = 0; row < 3; row++) {
+			int X = 0;
+			int O = 0;
+			int emplyCol = 0;
+			for (int col = 0; col < 3; col++) {
+				if (p.getVal(row, col) == 1)
+					X++;
+				if (p.getVal(row, col) == 2)
+					O++;
+				if (p.getVal(row, col) == 0)
+					emplyCol = col;
+			}
+			cout << p.getVal(2, 2);
+			// if possible player win found, block it
+			if (O == 2 && X == 0)
+				return row + "," + emplyCol;
+			X = 0;
+			O = 0;
+		}
+
+		// check veritcals
+		for (int col = 0; col < 3; col++) {
+			int X = 0;
+			int O = 0;
+			int emplyRow = 0;
+			for (int row = 0; row < 3; row++) {
+				if (ai_board[row][col] == 1)
+					X++;
+				if (ai_board[row][col] == 2)
+					O++;
+				if (ai_board[row][col] == 0)
+					emplyRow = row;
+			}
+			// if possible player win found, block it
+			if (O == 2 && X == 0)
+				return emplyRow + "," + col;
+			X = 0;
+			O = 0;
+		}
+
+		// check diagonal 1
+		int X = 0;
+		int O = 0;
+		int emplyRow = 0;
+		int col = 0;
+		for (int row = 0; row < 3; row++) {
+			if (ai_board[row][col] == 1)
+				X++;
+			if (ai_board[row][col] == 2)
+				O++;
+			if (ai_board[row][col] == 0)
+				emplyRow = row;
+			col++;
+		}
+		if (O == 2 && X == 0)
+			return emplyRow + "," + col;
+
+		// check diagonal 2
+		X = 0;
+		O = 0;
+		emplyRow = 0;
+		col = 0;
+		for (int row = 2; row > -1; row--) {
+			if (ai_board[row][col] == 1)
+				X++;
+			if (ai_board[row][col] == 2)
+				O++;
+			if (ai_board[row][col] == 0)
+				emplyRow = row;
+			col++;
+		}
+		if (O == 2 && X == 0)
+			return emplyRow + "," + col;
+
+		return "";
+	}
 
 };
 
 Board board;
+AI tom;
 
 int main()
 {
@@ -145,22 +241,23 @@ int main()
 		AITurn = AITurn != true;
 
 		if (AITurn)
+			//board.setVal(0, 0, 0);
 			computerTurn();
 		else
 			playerMove();
 
-		system("CLS");
+		//system("CLS");
 		board.draw();
 
 		if (checkWin())
 			break;
 	}
-	
+
 	_getch();
 	return 0;
 }
 
-bool turnChoice ()
+bool turnChoice()
 {
 	string input;
 	Validator myVal;
@@ -197,7 +294,7 @@ void playerMove()
 		sscanf_s(Sx.c_str(), "%d", &x);
 		sscanf_s(Sy.c_str(), "%d", &y);
 
-		board.setVal(y-1, x-1, 2);
+		board.setVal(y - 1, x - 1, 2);
 	}
 	else
 	{
@@ -237,17 +334,27 @@ string getMoveChoice()
 
 void computerTurn()
 {
-	bool firstMove = true;
-	for (int row = 0; row < 3; row++) {
-		for (int col = 0; col < 3; col++) {
-			if (board.getVal(row, col) != 0)
-				firstMove = false;
+	int x, y;
+	string choice = tom.getMove(board);
+
+	if (!(choice == ""))
+	{
+		string Sx = choice.substr(0, choice.find(","));
+		string Sy = choice.substr(choice.find(",") + 1, choice.length());
+
+		if ((Sx == "1" || Sx == "2" || Sx == "3") && (Sy == "1" || Sy == "2" || Sy == "3"))
+		{
+			sscanf_s(Sx.c_str(), "%d", &x);
+			sscanf_s(Sy.c_str(), "%d", &y);
+
+			board.setVal(y - 1, x - 1, 1);
 		}
 	}
+
 
 }
 
 bool checkWin()
 {
-	return true;
+	return false;
 }
