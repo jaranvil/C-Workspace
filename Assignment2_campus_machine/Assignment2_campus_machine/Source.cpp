@@ -43,6 +43,7 @@ int main()
 	cout << r1 << " * " << r2 << " = " << product << endl;
 	cout << r1 << " / " << r2 << " = " << quotient << endl;
 
+	// comparisons
 	if (r1 == r2)
 		cout << r1 << " == " << r2 << " = " << "true" << endl;
 	else

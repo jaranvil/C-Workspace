@@ -2,6 +2,7 @@
 #include <sstream>
 #include <conio.h>
 #include "Rational.h"
+#include <cmath>
 using namespace std;
 
 bool validateRational(string s);
@@ -88,6 +89,7 @@ bool Rational::operator< (Rational &rightObj)
 	return left < right;
 }
 
+// input override
 void operator>> (istream &input, Rational &num)
 {
 	string s;
@@ -98,11 +100,13 @@ void operator>> (istream &input, Rational &num)
 
 	if (isInteger(s))
 	{
+		// single interger inputted
 		stringstream ss(s);
 		ss >> n;
 		num = Rational(n);
 	} else if (validateRational(s))
 	{
+		// valid rational inputted
 		int del = s.find("/");
 		string num1 = s.substr(0, del);
 		string num2 = s.substr(del + 1);
@@ -118,10 +122,12 @@ void operator>> (istream &input, Rational &num)
 		num = Rational(n, d);
 	}
 	else {
+		//invalid input
 		input.setstate(istream::failbit);
 	}
 }
 
+// output override
 ostream& operator<<(ostream &output, Rational &num)
 {
 	output << num.numerator << "/" << num.denominator;
@@ -152,11 +158,31 @@ inline bool isInteger(const std::string & s)
 
 void normalize(int &numerator, int &denominator)
 {
+	bool numNeg = false;
+	bool denNeg = false;
+	// make numers positive
+	if (numerator < 0) {
+		numerator = abs(numerator);
+		numNeg = true;
+	}
+		
+	if (denominator < 0) {
+		denominator = abs(denominator);
+		numNeg = true;
+	}
+	
+	// normalize
 	for (int i = denominator * numerator; i > 1; i--) {
 		if ((denominator % i == 0) && (numerator % i == 0)) {
 			denominator /= i;
 			numerator /= i;
 		}
-
 	}
+
+	// restore negatives
+	if (numNeg) 
+		numerator = -numerator;
+	if (denNeg)
+		denominator = -denominator;
+	
 }
