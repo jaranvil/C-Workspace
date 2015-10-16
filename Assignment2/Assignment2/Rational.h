@@ -16,6 +16,9 @@ public:
 	Rational(int);
 
 	Rational operator+ (Rational &rightObj);
+	Rational operator- (Rational &rightObj);
+	Rational operator* (Rational &rightObj);
+	Rational operator/ (Rational &rightObj);
 	friend bool validateRational(string s);
 	friend void operator>> (istream &input, Rational &num);
 	friend ostream& operator<<(ostream &output, Rational &num);

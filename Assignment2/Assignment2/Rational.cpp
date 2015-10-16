@@ -14,7 +14,7 @@ bool validateRational(string s);
 	Rational::Rational(int num)
 		:numerator(num), denominator(1) {}
 
-	// operators
+	// addition
 	Rational Rational::operator+ (Rational &rightObj)
 	{
 		int numerator = this->numerator + rightObj.numerator;
@@ -25,9 +25,38 @@ bool validateRational(string s);
 		return Rational(numerator, denominator);
 	}
 
-	//code other operators here
+	// subtraction
+	Rational Rational::operator- (Rational &rightObj)
+	{
+		int numerator = this->numerator - rightObj.numerator;
+		int denominator = this->denominator - rightObj.denominator;
 
+		normalize(numerator, denominator);
 
+		return Rational(numerator, denominator);
+	}
+
+	// multipication 
+	Rational Rational::operator* (Rational &rightObj)
+	{
+		int numerator = this->numerator * rightObj.numerator;
+		int denominator = this->denominator * rightObj.denominator;
+
+		normalize(numerator, denominator);
+
+		return Rational(numerator, denominator);
+	}
+
+	// division
+	Rational Rational::operator/ (Rational &rightObj)
+	{
+		int numerator = this->numerator / rightObj.numerator;
+		int denominator = this->denominator / rightObj.denominator;
+
+		normalize(numerator, denominator);
+
+		return Rational(numerator, denominator);
+	}
 
 	//string toString()//clean
 	//{

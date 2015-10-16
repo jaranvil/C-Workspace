@@ -35,8 +35,14 @@ int main()
 	cin >> r2;
 
 	Rational sum = r1 + r2;
+	Rational difference = r1 - r2;
+	Rational quotient = r1 / r2;
+	Rational product = r1 * r2;
 
-	cout << r1 << " + " << r2 << " = " << sum;
+	cout << r1 << " + " << r2 << " = " << sum << endl;
+	cout << r1 << " - " << r2 << " = " << difference << endl;
+	cout << r1 << " * " << r2 << " = " << product << endl;
+	cout << r1 << " / " << r2 << " = " << quotient << endl;
 
 	_getch();
 
