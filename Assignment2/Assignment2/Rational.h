@@ -23,5 +23,7 @@ public:
 
 
 inline bool isInteger(const std::string & s);
+void normalize(int &numerator, int &denominator);
+
 
 #endif //end the ifnot defined statement

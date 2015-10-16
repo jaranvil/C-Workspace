@@ -17,8 +17,12 @@ bool validateRational(string s);
 	// operators
 	Rational Rational::operator+ (Rational &rightObj)
 	{
-		return Rational(this->numerator + rightObj.numerator,
-			this->denominator + rightObj.denominator);
+		int numerator = this->numerator + rightObj.numerator;
+		int denominator = this->denominator + rightObj.denominator;
+
+		normalize(numerator, denominator);
+
+		return Rational(numerator, denominator);
 	}
 
 	//code other operators here
@@ -54,31 +58,17 @@ void operator>> (istream &input, Rational &num)
 	int d = 1;
 	if (validateRational(s))
 	{
-		cout << "test";
-		string delimiter = "/";
-		string num1 = "";
-		string num2 = "";
-
-		size_t pos = 0;
-		string token;
-		bool first = true;
-		while ((pos = s.find(delimiter)) != std::string::npos) {
-			token = s.substr(0, pos);
-			if (first)
-				num1 = token;
-			else
-				num2 = token;
-			s.erase(0, pos + delimiter.length());
-			first = false;
-		}
+		int del = s.find("/");
+		string num1 = s.substr(0, del);
+		string num2 = s.substr(del + 1);
 
 		stringstream ss(num1);
 		ss >> n;
-		//stringstream ss(num2);
-		ss >> d;	
+		stringstream ss2(num2);
+		ss2 >> d;	
 	}
 	else {
-		cin.fail();
+		
 	}
 
 	num = Rational(n, d);
@@ -92,24 +82,10 @@ ostream& operator<<(ostream &output, Rational &num)
 
 bool validateRational(string s)
 {
-	string delimiter = "/";
-	string num1 = "";
-	string num2 = "";
+	int del = s.find("/");
+	string num1 = s.substr(0, del);
+	string num2 = s.substr(del + 1);
 	
-	size_t pos = 0;
-	string token;
-	bool first = true;
-	while ((pos = s.find(delimiter)) != std::string::npos) {
-		token = s.substr(0, pos);
-		num1 = num1 + token;
-		/*if (first)
-			num1 = token;
-		else
-			num2 = token;*/
-		first = false;
-		s.erase(0, pos + delimiter.length());
-	}
-	cout << num1 << " " << num2 << endl;
 	if (isInteger(num1) && isInteger(num2))
 		return true;
 
@@ -124,4 +100,15 @@ inline bool isInteger(const std::string & s)
 	strtol(s.c_str(), &p, 10);
 
 	return (*p == 0);
+}
+
+void normalize(int &numerator, int &denominator)
+{
+	for (int i = denominator * numerator; i > 1; i--) {
+		if ((denominator % i == 0) && (numerator % i == 0)) {
+			denominator /= i;
+			numerator /= i;
+		}
+
+	}
 }

@@ -4,33 +4,15 @@
 #include "Rational.h"
 using namespace std;
 
-
+void normalize(int numerator, int denominator);
 
 int main()
 {
-	string s = "5/6";
-	string delimiter = "/";
-	string num1 = "";
-	string num2 = "";
-
-	size_t pos = 0;
-	string token;
-
-	while ((pos = s.find(delimiter)) != std::string::npos) {
-		token = s.substr(0, pos);
-		
-		num1 = token;
-		cout << token;
-
-		s.erase(0, pos + delimiter.length());
-	}
-	cout << num1 << " " << num2 << endl;
-
-	cout << "Press any key to begin" << endl;
-	_getch();
-	Rational num;
-	cout << num << endl;//use of << override
-	_getch();
+	//cout << "Press any key to begin" << endl;
+	//_getch();
+	//Rational num;
+	//cout << num << endl;//use of << override
+	//_getch();
 
 	////test of the + operator
 	//cout << "Test of + operator and toString method" << endl;
@@ -41,13 +23,21 @@ int main()
 	//_getch();
 
 
-	Rational r;
-	cout << "Enter rational number as a string: " << endl;
-	cin >> r; //use of input friend function
-				//note: have the overloaded input call a validation method and
-				//execute a cin.fail if the string is not valid - loop and ask again
-	cout << r << endl;//use of output friend function STUBBED!
-	cout << "\n Test complete" << endl;
+	Rational r1;
+	Rational r2;
+	cout << "Enter the first rational number as a string: " << endl;
+	cin >> r1; 
+
+	if (cin.fail())
+		cout << "TEST";
+
+	cout << "Enter the second rational number as a string: " << endl;
+	cin >> r2;
+
+	Rational sum = r1 + r2;
+
+	cout << r1 << " + " << r2 << " = " << sum;
+
 	_getch();
 
 
