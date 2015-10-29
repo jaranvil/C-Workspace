@@ -28,6 +28,10 @@ public:
 	void output();
 
 	void setName(string);
+	string getName();
+	string getCourse(int);
+	int getNumCourses();
+
 
 	friend ostream& operator<<(ostream &output, Student &num);
 

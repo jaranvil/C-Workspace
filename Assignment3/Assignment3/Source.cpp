@@ -8,8 +8,6 @@ int main()
 {
 	string name;
 	string course;
-	Student student1;
-	Student student2;
 
 	// get name
 	cout << "Begin Student Test" << endl;
@@ -17,7 +15,7 @@ int main()
 	getline(cin, name);
 
 	// create student 1
-	student1 = Student(name);
+	Student student1 = Student(name);
 
 	cout << "Enter 'done' when you are complete" << endl;
 	// get courses
@@ -31,22 +29,25 @@ int main()
 	} while (course != "done");
 
 	// output 1st student
-	student1.output();
+	//student1.output();
+	cout << student1;
 
 	// name second student
 	cout << "Enter name of second student: ";
 	getline(cin, name);
 
 	// user of assignment operator
-	student2 = student1;
+	Student student2 = student1;
 
 	student2.setName(name);
 
-	student2.output();
+	//student2.output();
+	cout << student2;
 
 	// clear student 1
 	student1.clear();
-	student1.output();
+	//student1.output();
+	cout << student1;
 
 	_getch();
 	return 0;

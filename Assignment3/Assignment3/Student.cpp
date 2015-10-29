@@ -50,7 +50,8 @@ using namespace std;
 
 		if (this->courseList != NULL)
 		{
-			delete[] this->courseList;
+			if (!numCourses == 0)
+				delete[] this->courseList;
 		}
 	}
 
@@ -68,12 +69,7 @@ using namespace std;
 
 		// copy name
 		name = input.name;
-		/*char *temp = this->name;
-		int len = strlen(this->name) + strlen(input.name) + 1;
-		this->strMem = new char[len];
-		strcpy(this->strMem, temp);
-		strcat(this->strMem, strIn.strMem);
-		delete[] temp;*/
+
 
 		return *this;
 	}
@@ -130,8 +126,30 @@ using namespace std;
 		this->name = name;
 	}
 
+	string Student::getName()
+	{
+		return this->name;
+	}
+
+	string Student::getCourse(int index)
+	{
+		return this->courseList[index];
+	}
+
+	int Student::getNumCourses()
+	{
+		return this->numCourses;
+	}
+
 	ostream& operator<<(ostream &output, Student &student)
 	{
-		output << "other test" << 6;
+		output << endl << "Name of student: " << student.getName() << endl;
+		output << "Number of Courses: " << student.getNumCourses() << endl;
+		output << "Class List:" << endl;
+
+		for (int i = 0; i < student.getNumCourses(); i++)
+		{
+			output << (i + 1) << "> " << student.getCourse(i) << endl;
+		}
 		return output;
 	}
