@@ -27,6 +27,8 @@ public:
 	void clear();
 	void output();
 
+	void setName(string);
+
 	friend ostream& operator<<(ostream &output, Student &num);
 
 };

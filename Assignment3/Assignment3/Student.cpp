@@ -9,7 +9,7 @@ using namespace std;
 	//default
 	Student::Student()
 	{
-		cout << "default constructor fired" << endl;
+		cout << endl << "default constructor fired" << endl;
 		this->name = "";
 		this->numCourses = 0;
 		this->courseList = new string[numCourses];
@@ -18,7 +18,7 @@ using namespace std;
 	// w/ args
 	Student::Student(string input)
 	{
-		cout << "one argument constructor fired" << endl;
+		cout << endl << "one argument constructor fired" << endl;
 		//int len = strlen(input);
 		//this->name = new char[len + 1];
 		//strcpy(this->name, input);
@@ -32,7 +32,7 @@ using namespace std;
 	// copy constructor
 	Student::Student(const Student& input)
 	{
-		cout << "copy constructor fired" << endl;
+		cout << endl << "copy constructor fired" << endl;
 		//int len = strlen(strIn.strMem);
 		//this->strMem = new char[len + 1];
 		
@@ -46,7 +46,7 @@ using namespace std;
 
 	Student::~Student()// destuctor
 	{
-		cout << "destructor fired" << endl;
+		cout << endl << "destructor fired" << endl;
 
 		if (this->courseList != NULL)
 		{
@@ -57,7 +57,7 @@ using namespace std;
 	// assignment operator
 	Student& Student::operator= (const Student& input)
 	{
-		cout << "assignment operator fired" << endl;
+		cout << endl << "assignment operator fired" << endl;
 
 		// copy course list
 		delete[] courseList;
@@ -121,7 +121,13 @@ using namespace std;
 
 	void Student::clear()
 	{
+		numCourses = 0;
+		delete[] courseList;
+	}
 
+	void Student::setName(string name)
+	{
+		this->name = name;
 	}
 
 	ostream& operator<<(ostream &output, Student &student)
