@@ -22,7 +22,8 @@ public:
 	//Organism(City *city, int width, int height);
 	virtual ~Organism();
 
-	virtual void move() = 0;
+	string draw();
+	void move();
 	//virtual void spawn() = 0;
 	//virtual int getSpecies() = 0; //this could also be coded concrete here
 	//virtual void getPosition() = 0;

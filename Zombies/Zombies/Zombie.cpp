@@ -5,4 +5,12 @@ using namespace std;
 Zombie::Zombie(void){}
 Zombie::~Zombie(void){}
 
+string draw()
+{
+	return " X ";
+}
 
+void Zombie::move()
+{
+
+}

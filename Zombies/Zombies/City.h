@@ -20,6 +20,8 @@ public:
 	Organism *getOrganism(int x, int y);
 	void setOrganism(Organism *organism, int x, int y);
 
+	void startPositions();
+	void drawCity();
 	void move();
 
 	friend ostream& operator<<(ostream &output, City &city);
