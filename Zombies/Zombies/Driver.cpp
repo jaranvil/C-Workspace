@@ -10,6 +10,7 @@ int main()
 
 	City city;
 
+	city.startPositions();
 	city.drawCity();
 
 	_getch();

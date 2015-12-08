@@ -5,7 +5,7 @@ using namespace std;
 Zombie::Zombie(void){}
 Zombie::~Zombie(void){}
 
-string draw()
+string Zombie::draw()
 {
 	return " X ";
 }

@@ -5,7 +5,7 @@ using namespace std;
 Human::Human(void){}
 Human::~Human(void){}
 
-string draw()
+string Human::draw()
 {
 	return " O ";
 }
