@@ -10,10 +10,11 @@ const int GRID_HEIGHT = 20;
 
 class City
 {
-protected:
-	Organism *grid[GRID_HEIGHT][GRID_WIDTH];
 
 public:
+	bool temp = true;
+	Organism *grid[GRID_HEIGHT][GRID_WIDTH];
+	int gridStart[GRID_HEIGHT][GRID_WIDTH];
 	City();
 	virtual ~City();
 

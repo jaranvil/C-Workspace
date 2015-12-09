@@ -9,3 +9,8 @@ string Organism::draw()
 {
 	return "";
 }
+
+void Organism::move()
+{
+
+}

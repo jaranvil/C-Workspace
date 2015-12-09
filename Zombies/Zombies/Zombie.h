@@ -10,6 +10,8 @@ public:
 	Zombie(City *city, int width, int height);
 	virtual ~Zombie();
 
+	City* city;
+
 	string draw();
 	void move();
 };

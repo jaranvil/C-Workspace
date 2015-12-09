@@ -8,7 +8,7 @@ using namespace std;
 class Organism
 {
 protected:
-	int x;
+	
 	int y;
 	int width;
 	int height;
@@ -18,12 +18,13 @@ protected:
 	enum { WEST, NORTH, EAST, SOUTH, NUM_DIRECTIONS };
 
 public:
+	int x;
 	Organism();
 	//Organism(City *city, int width, int height);
 	virtual ~Organism();
 
 	virtual string draw();
-	void move();
+	virtual void move();
 	//virtual void spawn() = 0;
 	//virtual int getSpecies() = 0; //this could also be coded concrete here
 	//virtual void getPosition() = 0;

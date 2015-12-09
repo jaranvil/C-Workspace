@@ -7,7 +7,7 @@ Human::~Human(void){}
 
 string Human::draw()
 {
-	return " O ";
+	return "O";
 }
 
 void Human::move()
