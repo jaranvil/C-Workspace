@@ -21,7 +21,8 @@ public:
 	int x;
 	int y;
 	int age = 0;
-	bool moved = false;;
+	int eatCount = 0;
+	bool moved = false;
 	Organism();
 	//Organism(City *city, int width, int height);
 	virtual ~Organism();

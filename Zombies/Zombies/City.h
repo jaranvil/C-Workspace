@@ -13,6 +13,7 @@ class City
 
 public:
 	bool temp = true;
+	int iterations = 0;
 	Organism *grid[GRID_HEIGHT][GRID_WIDTH];
 	int gridStart[GRID_HEIGHT][GRID_WIDTH];
 	City();

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <conio.h>
 #include "Zombie.h"
+#include "Human.h"
 #include <windows.h>
 
 using namespace std;
@@ -43,12 +44,12 @@ void Zombie::move()
 			for (int col = y1; col < y1 + 3; col++)
 			{
 				if (city->grid[row][col] != NULL) {
-					if (col < 20 && row < 20) {
+					if (col < 20 && col >= 0 && row < 20 && row >=0) {
 						if (city->grid[row][col]->whatAmI() == 0)
 						{
 							humanX = city->grid[row][col]->x;
 							humanY = city->grid[row][col]->y;
-							cout << "eat ";
+						
 						}
 					}
 
@@ -59,12 +60,12 @@ void Zombie::move()
 		if (!(humanX == -1 || humanY == -1)) // if human was found
 		{
 			//eat
-			cout << "eat ";
 			city->setAt(this->x, this->y, NULL);
 			this->y = humanY;
 			this->x = humanX;
 			city->setAt(this->x, this->y, this);
 			moved = true;
+			eatCount = 0;
 		}
 		else
 		{
@@ -113,14 +114,15 @@ void Zombie::move()
 				}			
 			}
 
-			//if (city->grid[xNew][yNew] = NULL)
-			//{
+			if (city->grid[xNew][yNew] == NULL)
+			{
 				city->setAt(this->x, this->y, NULL);
 				this->y = yNew;
 				this->x = xNew;
 				city->setAt(this->x, this->y, this);
 				moved = true;
-			//}
+				eatCount++;
+			}
 
 		}
 		age++;
@@ -144,7 +146,7 @@ void Zombie::action()
 			for (int col = y1; col < y1 + 3; col++)
 			{
 				if (city->grid[row][col] != NULL) {
-					if (col < 20 && row < 20) {
+					if (col < 20 && row < 20 && row >= 0 && col >=0 ) {
 						if (city->grid[row][col]->whatAmI() == 0)
 						{
 							humanX = city->grid[row][col]->x;
@@ -164,9 +166,17 @@ void Zombie::action()
 			Organism* newOrg = (Organism*) pZombie;
 			// replace human
 			city->setAt(humanX, humanY, newOrg);
-		
+
 			this->age = 0;
 		}
+	}
+
+	// Starve
+	if (eatCount == 3)
+	{
+		Human *pHuman = new Human(city, this->x, this->y);
+		Organism* newOrg = (Organism*)pHuman;
+		city->setAt(this->x, this->y, newOrg);
 	}
 }
 

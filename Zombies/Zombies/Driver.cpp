@@ -13,7 +13,7 @@ public:
 	}
 
 	unsigned long elapsedTime() {
-		return ((unsigned long)clock() - begTime) / CLOCKS_PER_SEC;
+		return ((unsigned long)clock() - begTime) / CLOCKS_PER_SEC; 
 	}
 
 	bool isTimeout(unsigned long seconds) {
@@ -31,8 +31,7 @@ int main()
 	unsigned long seconds = 1;
 	timer t;
 
-	system("cls");
-	cout << "Humans vs. Zombies!" << endl;
+	
 	city.drawCity();
 	t.start();
 
@@ -43,7 +42,9 @@ int main()
 
 			city.move();
 			city.drawCity();
+			city.action();
 			t.start();
+
 		}
 		else {
 			// do other things

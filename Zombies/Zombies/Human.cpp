@@ -68,21 +68,66 @@ void Human::move()
 			}
 		}
 
-		//if (city->grid[xNew][yNew] = NULL)
-		//{
+		if (city->grid[xNew][yNew] == NULL)
+		{
 			city->setAt(this->x, this->y, NULL);
 			this->y = yNew;
 			this->x = xNew;
 			city->setAt(this->x, this->y, this);
 			moved = true;
-		//}
+		}
 	}
+	age++;
 	
 }
 
 void Human::action()
 {
+	if (age > 2)
+	{
+		// new human
+		int newX = -1;
+		int newY = -1;
 
+		if (this->x - 1 >= 0)
+		{
+			if (city->grid[this->x - 1][this->y] == NULL)
+			{
+				newX = this->x - 1;
+				newY = this->y;
+			}
+		} else if (this->x + 1 < 20)
+		{
+			if (city->grid[this->x + 1][this->y] == NULL)
+			{
+				newX = this->x + 1;
+				newY = this->y;
+			}
+		} else if (this->y - 1 >= 0)
+		{
+			if (city->grid[this->x][this->y - 1] == NULL)
+			{
+				newX = this->x;
+				newY = this->y - 1;
+			}
+		}
+		else if (this->y + 1 >= 0)
+		{
+			if (city->grid[this->x][this->y + 1] == NULL)
+			{
+				newX = this->x;
+				newY = this->y + 1;
+			}
+		}
+		
+		if (newX != -1 && newY != -1)
+		{
+			Human *pHuman = new Human(city, newX, newY);
+			Organism* newOrg = (Organism*)pHuman;
+			city->setAt(newX, newY, newOrg);
+		}
+		this->age = 0;
+	}
 }
 
 int Human::whatAmI()

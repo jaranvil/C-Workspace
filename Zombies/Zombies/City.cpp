@@ -5,6 +5,7 @@
 #include "Zombie.h"
 #include "Human.h"
 #include "Organism.h"
+#include <windows.h>
 using namespace std;
 
 City::City(void){}
@@ -13,25 +14,25 @@ City::~City(void){}
 
 void City::startPositions()
 {
-	int gridStart[GRID_WIDTH][GRID_HEIGHT] = { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	int gridStart[GRID_WIDTH][GRID_HEIGHT] = { { 0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 												{ 0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-												{ 0,0,0,1,0,0,0,0,0,0,0,1,0,0,2,0,0,0,0,0 }, 
-												{ 0,0,1,0,0,0,0,0,0,0,0,1,0,2,0,0,0,0,0,0 }, 
-												{ 0,1,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0 }, 
-												{ 1,0,0,0,0,0,0,0,0,0,0,1,0,2,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,1,1,1,0,0,0,0,0,0,0,2,0,0,0,0,0 }, 
-												{ 0,0,0,0,1,0,1,0,0,0,0,2,2,2,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,1,1,1,0,0,0,2,2,1,2,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,0,0,0,1,0,2,0,2,2,2,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,0,2,0,0,2,1,0,0,0,0,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0 }, 
-												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0 }, 
-												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0 }, 
-												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0 }, 
+												{ 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0 },
 												{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }, };
 
 
@@ -69,7 +70,7 @@ void City::startPositions()
 				Human *pHuman = new Human(this, row, col); //on heap
 				grid[row][col] = (Organism*)pHuman;
 			} else {
-				grid[row][col] = 0;
+				grid[row][col] = NULL;
 			}
 		}
 	}
@@ -77,6 +78,16 @@ void City::startPositions()
 
 void City::drawCity()
 {
+	HANDLE  hConsole;
+	int k = 6;
+
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, k);
+
+	system("cls");
+	cout << "Humans vs. Zombies!" << endl;
+	cout << "Iterations: " << iterations << endl;
+
 	if (temp) {
 		for (int row = 0; row < GRID_WIDTH; row++) {
 			cout << endl;
@@ -93,12 +104,17 @@ void City::drawCity()
 
 void City::move()
 {
+	iterations++;
+	bool zombies = false;
+	bool humans = false;
 	// Zombies
 	for (int row = 0; row < GRID_WIDTH; row++) {
 		for (int col = 0; col < GRID_HEIGHT; col++) {
 			if (grid[row][col] != NULL)
-				if (grid[row][col]->whatAmI() == 1)
+				if (grid[row][col]->whatAmI() == 1) {
 					grid[row][col]->move();
+					zombies = true;
+				}	
 		}
 	}
 
@@ -106,9 +122,17 @@ void City::move()
 	for (int row = 0; row < GRID_WIDTH; row++) {
 		for (int col = 0; col < GRID_HEIGHT; col++) {
 			if (grid[row][col] != NULL)
-				if (grid[row][col]->whatAmI() == 0)
+				if (grid[row][col]->whatAmI() == 0) {
 					grid[row][col]->move();
+					humans = true;
+				}	
 		}
+	}
+
+	if (!zombies || !humans)
+	{
+		cout << endl << "extinction" << endl;
+		_getch();
 	}
 }
 
@@ -119,6 +143,15 @@ void City::action()
 		for (int col = 0; col < GRID_HEIGHT; col++) {
 			if (grid[row][col] != NULL)
 				if (grid[row][col]->whatAmI() == 1)
+					grid[row][col]->action();
+		}
+	}
+
+	// Human
+	for (int row = 0; row < GRID_WIDTH; row++) {
+		for (int col = 0; col < GRID_HEIGHT; col++) {
+			if (grid[row][col] != NULL)
+				if (grid[row][col]->whatAmI() == 0)
 					grid[row][col]->action();
 		}
 	}
