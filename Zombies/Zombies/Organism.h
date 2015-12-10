@@ -9,22 +9,27 @@ class Organism
 {
 protected:
 	
-	int y;
+	
 	int width;
 	int height;
-	bool moved;
+	
 	//City *city;
 
 	enum { WEST, NORTH, EAST, SOUTH, NUM_DIRECTIONS };
 
 public:
 	int x;
+	int y;
+	int age = 0;
+	bool moved = false;;
 	Organism();
 	//Organism(City *city, int width, int height);
 	virtual ~Organism();
 
-	virtual string draw();
+	virtual void draw();
 	virtual void move();
+	virtual int whatAmI();
+	virtual void action();
 	//virtual void spawn() = 0;
 	//virtual int getSpecies() = 0; //this could also be coded concrete here
 	//virtual void getPosition() = 0;

@@ -18,12 +18,16 @@ public:
 	City();
 	virtual ~City();
 
-	Organism *getOrganism(int x, int y);
-	void setOrganism(Organism *organism, int x, int y);
+	//Organism *getOrganism(int x, int y);
+	//void setOrganism(Organism *organism, int x, int y);
+
+	Organism* getAt(int x, int y);
+	void setAt(int x, int y, Organism *org);
 
 	void startPositions();
 	void drawCity();
 	void move();
+	void action();
 
 	friend ostream& operator<<(ostream &output, City &city);
 

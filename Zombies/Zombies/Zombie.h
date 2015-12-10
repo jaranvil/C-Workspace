@@ -12,8 +12,10 @@ public:
 
 	City* city;
 
-	string draw();
+	void draw();
 	void move();
+	int whatAmI();
+	void action();
 };
 
 #endif

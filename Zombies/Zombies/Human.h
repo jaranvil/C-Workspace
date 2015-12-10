@@ -10,9 +10,12 @@ public:
 	Human(City *city, int width, int height);
 	virtual ~Human();
 
-	string draw();
+	City* city;
 
+	void draw();
 	void move();
+	int whatAmI();
+	void action();
 };
 
 #endif

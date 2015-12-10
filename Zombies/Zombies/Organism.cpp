@@ -5,12 +5,22 @@ using namespace std;
 Organism::Organism(void){}
 Organism::~Organism(void){}
 
-string Organism::draw()
+void Organism::draw()
 {
-	return "";
+	
 }
 
 void Organism::move()
+{
+
+}
+
+int Organism::whatAmI()
+{
+	return 0;
+}
+
+void Organism::action()
 {
 
 }
