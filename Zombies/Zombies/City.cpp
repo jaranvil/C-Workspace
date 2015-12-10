@@ -74,6 +74,9 @@ void City::move()
 	for (int row = 0; row < GRID_WIDTH; row++) {
 		for (int col = 0; col < GRID_HEIGHT; col++) {
 			if (grid[row][col] != NULL)
+
+				//grid[row + 1][col] = grid[row][col];
+				//grid[row][col] = 0;
 				grid[row][col]->move();
 		}
 	}

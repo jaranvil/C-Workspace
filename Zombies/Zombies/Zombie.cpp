@@ -19,8 +19,9 @@ string Zombie::draw()
 
 void Zombie::move()
 {	
-	Organism *pNew = city->grid[x][y];
-	city->grid[x + 1][y] = pNew;
-	city->grid[x][y] = 0;
-	pNew->x++;
+	Organism *pOrganism = new Organism; //on heap
+	
+	*(pOrganism) = *(city->grid[x][y]);
+	city->grid[x + 1][y] = pOrganism;
+	city->grid[x][y] = NULL;
 }
